@@ -27,9 +27,10 @@ def init_globals(key_not_found,sec_key):
 # multiprocess function, notice small v in .value
 def crack_something(cpu, cur_key, end_key):
     print(f'CPU: {cpu} keyspace start at {cur_key} and end at {end_key}')
+    key=HIDDEN_KEY.value
     while KEY_NOT_FOUND.value and (cur_key <= end_key):
         
-        if cur_key == HIDDEN_KEY.value:
+        if cur_key == key:
             KEY_NOT_FOUND.value=False
             return f"CPU: {cpu} found secret key: {cur_key}"
         cur_key+=1
