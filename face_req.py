@@ -27,25 +27,19 @@ def face_req():
         cur_path = trainingfolder+"\\"+person
         print(cur_path)
         for image_name in os.listdir(dirpath+"\\"+cur_path):
-            #print(image_name)
-            #image_path= cur_path+"/"+image_name
             image_path= cur_path +"\\"+image_name
-            #image_path = image_path
-            print(image_name)
-            print(image_path)
             image_data_raw=cv.imread(image_path)
-            # if image_data_raw==None :
-            #     print("FUCK there is no image!")
-            #     continue
             #make in monochrome (svart vit)            
             image_data = cv.cvtColor(image_data_raw,cv.COLOR_RGB2GRAY)
             #cascade ? aka get the face!
-            #face_recognition=
             face_recognition = face_cascade.detectMultiScale(image_data, scaleFactor=1.1, minNeighbors=6)
             for (x, y, w, h) in face_recognition:
                 face_area = image_data[y:y + h, x:x + w]
-                print(face_area)
-                
-            
+            # Save data in features (facearea)
+            # Handle labels, name of person on picture.
+# convert labels list as numpy same with feature list.
+# Save traning data into trainer.yml
+# Validate the training data on validation pictures.
+# Show each result and confidence of the result.     
             
 face_req()
