@@ -15,7 +15,7 @@ person_names = []
 for person_name in os.listdir(dirpath+"\\"+trainingfolder):
     person_names.append(person_name)
     
-face_cascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
+face_cascade = cv.CascadeClassifier("haarcascade_upperbody.xml")
 
 def face_req():
     face_features = []
@@ -69,9 +69,15 @@ def face_validation():
         face_recognition = face_cascade.detectMultiScale(image_data, scaleFactor=1.1, minNeighbors=6)
         
         for (x, y, w, h) in face_recognition:
-                face_data = image_data[y:y + h, x:x + w]
-                person_id, certainty = face_recognizer.predict(face_data)
-                print(f"Image{validation_image.index(image)}[{image}] is {person_names[person_id]} with {certainty}% certainty. ")
+            face_data = image_data[y:y + h, x:x + w]
+            person_id, certainty = face_recognizer.predict(face_data)
+            print(f"Image{validation_image.index(image)}[{image}] is {person_names[person_id]} with {certainty:.2f} AI confidence in match.")
+            image_label = f"[{image}]dist:{certainty:.2f}."
+            cv.putText(image_data_raw,image_label,(30,40),cv.FONT_HERSHEY_PLAIN,fontScale=1.5,color=(0,230,0),thickness=2)
+            cv.rectangle(image_data_raw,(x,y),(x+w,y+h),color=(0,230,0),thickness=2)
+        cv.imshow("Detected Face",image_data_raw)
+        cv.waitKey(0)
+            
         
         
         
