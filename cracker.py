@@ -3,7 +3,7 @@ import concurrent.futures
 import psutil
 from random import randint
 import time
-
+#----3
 # START_VALUE upperlimit of the span of numbers we will search for value in
 global START_VALUE
 START_VALUE = 4294967  # 22 sec @ 8 threads, 4 cores
@@ -31,9 +31,11 @@ def crack_something(cpu, cur_key, end_key):
 
 # --- END ISAK, START EDVIN ---
 
+#-----2
 def main():
     # Share variable between processes, notice large V in .Value
     key_not_found = multiprocessing.Value('i', True)
+    # secret key is a multiprocessing value to keep it the same for all cores
     secret_key = multiprocessing.Value('i', randint(1, START_VALUE))
 
     # definera listor
@@ -64,7 +66,7 @@ def main():
         for result in executor.map(crack_something, cpus, start_keys, end_keys):
             print(result)
 
-
+# -----1
 if __name__ == '__main__':
     # Time the executionen
     start = time.perf_counter()

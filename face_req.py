@@ -55,6 +55,7 @@ def face_req():
             # |                             |
             # |                             |
             # -------------------------------
+            
             for (x, y, w, h) in face_recognition:
                 face_data = image_data[y:y + h, x:x + w]
                 #y=5,x=5 ,h=6,w=3
@@ -86,20 +87,18 @@ def face_validation():
     for image in validation_image:
         image_path = validationfolder+"\\"+image
         image_data_raw = cv.imread(image_path)
-        # make in monochrome (svart vit)
+        # Make it monochrome
         image_data = cv.cvtColor(image_data_raw, cv.COLOR_RGB2GRAY)
-        # finds the face within the image
+        # (Hopefully) finds the face within the image
         face_recognition = face_cascade.detectMultiScale(
             image_data, scaleFactor=1.1, minNeighbors=6)
-
-        # This for-loop identifies the faces in the validation-set.
-        # It also prints the picture with the approximated identity along with its confidence level.
+        # This for-loop predicts the identity of the faces in the validation-set.
+        # It also prints the picture with the predicted identity, along with its confidence level.
         for (x, y, w, h) in face_recognition:
             face_data = image_data[y:y + h, x:x + w]
-            person_id, certainty = face_recognizer.predict(face_data)
-            
+            person_id, certainty = face_recognizer.predict(face_data)            
             print(f"Image{validation_image.index(image)}[{image}] is {person_names[person_id]} with {certainty:.2f} AI confidence in match.")
-            
+            # Image_label is the label that is placed on the picture via the cv.putText-function (using the cv.rectangle for positioning).
             image_label = f"[{image}]dist:{certainty:.2f}."
             cv.putText(image_data_raw, image_label, (30, 40), cv.FONT_HERSHEY_PLAIN,
                        fontScale=1.5, color=(0, 200, 200), thickness=1)
